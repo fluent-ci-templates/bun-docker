@@ -4,7 +4,6 @@ const image = new Dockerfile()
   .from("alpine:latest")
   .run("apk update")
   .run("apk add curl bash python3 alpine-sdk")
-  .run("devbox global add yarn nodejs@18.16.1 bun@0.7.0")
   .run(
     'curl --proto =https --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install linux --extra-conf "sandbox = false" --init none --no-confirm'
   )
@@ -13,6 +12,9 @@ const image = new Dockerfile()
   .run("addgroup devbox nixbld")
   .env("FORCE", "1")
   .run("curl -fsSL https://get.jetpack.io/devbox | bash")
+  .run("devbox global add yarn nodejs@18.16.1 bun@0.7.0")
+  .run('eval "$(devbox global shellenv)" && bun --version')
+  .run('eval "$(devbox global shellenv)" && node --version')
   .cmd("devbox version");
 
 const dockerfile = image.toString();

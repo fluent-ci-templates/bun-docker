@@ -3,11 +3,13 @@
 FROM alpine:latest
 RUN apk update
 RUN apk add curl bash python3 alpine-sdk
-RUN devbox global add yarn nodejs@18.16.1 bun@0.7.0
 RUN curl --proto =https --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install linux --extra-conf "sandbox = false" --init none --no-confirm
 ENV PATH=${PATH}:/nix/var/nix/profiles/default/bin
 RUN adduser --disabled-password devbox
 RUN addgroup devbox nixbld
 ENV FORCE=1
 RUN curl -fsSL https://get.jetpack.io/devbox | bash
+RUN devbox global add yarn nodejs@18.16.1 bun@0.7.0
+RUN eval "$(devbox global shellenv)" && bun --version
+RUN eval "$(devbox global shellenv)" && node --version
 CMD devbox version
