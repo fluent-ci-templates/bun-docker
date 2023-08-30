@@ -9,7 +9,7 @@ const image = new Dockerfile()
   )
   .env("PATH", "${PATH}:/nix/var/nix/profiles/default/bin")
   .run(
-    "sed -i s/auto-allocate-uids = true/auto-allocate-uids = false/g /etc/nix/nix.conf"
+    "sed -i 's/auto-allocate-uids = true/auto-allocate-uids = false/g' /etc/nix/nix.conf"
   )
   .run("adduser --disabled-password devbox")
   .run("addgroup devbox nixbld")
